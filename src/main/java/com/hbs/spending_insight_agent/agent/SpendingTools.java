@@ -4,7 +4,6 @@ import com.hbs.spending_insight_agent.model.Transaction;
 import com.hbs.spending_insight_agent.service.AccountSummaryService;
 import com.hbs.spending_insight_agent.service.TransactionService;
 import dev.langchain4j.agent.tool.Tool;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
