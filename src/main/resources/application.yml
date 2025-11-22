@@ -7,11 +7,16 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
+    defer-datasource-initialization: true
     show-sql: true
     properties:
       hibernate:
         format_sql: true
+
+  sql:
+    init:
+      mode: always
 
   h2:
     console:
@@ -23,4 +28,18 @@ spring:
 
 openai:
   api:
-    key: <<YOUR_KEY_HERE>>
+    key: ${openai_key}
+
+logging:
+  level:
+    root: INFO
+    dev.langchain4j: DEBUG
+    dev.langchain4j.agent: DEBUG
+    dev.langchain4j.agent.tool: DEBUG
+    dev.langchain4j.model: DEBUG
+    dev.langchain4j.memory: DEBUG
+    dev.langchain4j.service: DEBUG
+    dev.langchain4j.data: DEBUG
+    com.hbs.spending_insight_agent: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.jdbc: DEBUG
