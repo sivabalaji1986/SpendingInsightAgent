@@ -94,6 +94,7 @@ src/main/java/com/hbs/spending_insight_agent/
 │
 ├── agent/
 │   └── SpendingInsightAgent.java
+│   └── SpendingTools.java
 │
 ├── controller/
 │   └── SpendingController.java
@@ -110,8 +111,10 @@ src/main/java/com/hbs/spending_insight_agent/
 │   ├── Account.java
 │   └── Transaction.java
 │
-└── config/
-    └── OpenAIConfig.java
+├── config/
+│   └── OpenAIConfig.java
+│
+├── SpendingInsightAgentApplication.java
 ```
 
 ---
@@ -120,33 +123,80 @@ src/main/java/com/hbs/spending_insight_agent/
 
 Ensure:
 ```properties
-spring.jpa.hibernate.ddl-auto=none
-spring.jpa.defer-datasource-initialization=true
-spring.sql.init.mode=always
+spring:
+  jpa:
+    hibernate:
+        ddl-auto: none
+        defer-datasource-initialization: true
+  sql:
+    init:
+        mode: always
 ```
 
 This ensures:
 - schema.sql loads
 - data.sql loads
-- Hibernate does NOT drop the tables afterwards
-
----
-
-## 📄 Example Insight Output
-
-```
-Your spending for November 2025 increased by 28% compared to October.
-The largest contributor was Travel (SGD 1980), mainly due to flights on Scoot & Singapore Airlines.
-You also spent more on Shopping (+SGD 120).
-No unusual or suspicious transactions detected.
-```
+- Hibernate does NOT drop the tables after wards
 
 ---
 
 ## 🧪 Test with curl
 
 ```bash
-curl -X POST http://localhost:8080/api/spend/analyse   -H "Content-Type: application/json"   -d '{"query": "Analyse my spending for account A123 for November 2025"}'
+curl --location 'http://localhost:8080/api/spend/analyse' \
+--header 'Content-Type: application/json' \
+--data '{
+  "query": "Analyse my spending for account A123 for November 2025 and compare it againt October 2025 spendings. Tell me in detail which categories I spent most"
+}'
+```
+
+---
+
+## 📄 Example Insight Output
+
+```
+Here's a detailed analysis of your spending for account **A123** in **October 2025** and **November 2025**:
+
+### Total Spending
+- **October 2025**: $690.00
+- **November 2025**: $2,630.50
+
+### Spending Categories Breakdown
+
+#### October 2025 Transactions:
+1. **Food**: 
+   - **GrabFood**: $110.00
+2. **Shopping**: 
+   - **Shopee**: $200.00
+3. **Bills**: 
+   - **SP Services**: $180.00
+4. **Travel**: 
+   - **Bus Ticket**: $200.00
+
+**Total for October**: $690.00
+
+#### November 2025 Transactions:
+1. **Food**: 
+   - **GrabFood**: $120.50
+2. **Travel**: 
+   - **Scoot Airlines**: $580.00
+   - **Singapore Airlines**: $1,400.00
+3. **Shopping**: 
+   - **Uniqlo**: $320.00
+4. **Bills**: 
+   - **SP Services**: $210.00
+
+**Total for November**: $2,630.50
+
+### Comparison of Spending Patterns
+- **Overall Increase**: Your spending increased significantly from **$690.00 in October** to **$2,630.50 in November**.
+- **Major Categories**:
+  - **Travel** saw a substantial increase, with a total of **$2,000.00** in November compared to **$200.00** in October.
+  - **Shopping** also increased from **$200.00** in October to **$320.00** in November.
+  - **Food** and **Bills** saw a slight increase, but they were not the main contributors to the overall increase.
+
+### Summary
+Your spending in November was heavily influenced by travel expenses, particularly with significant purchases from airlines. If you have any further questions or need more insights, feel free to ask!
 ```
 
 ---
