@@ -2,9 +2,9 @@ package com.hbs.spending_insight_agent.config;
 
 import com.hbs.spending_insight_agent.agent.SpendingInsightAgent;
 import com.hbs.spending_insight_agent.agent.SpendingTools;
-import dev.langchain4j.memory.chat.MessageWindowChatMemory;
-import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
+import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.service.AiServices;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +17,7 @@ public class AgentConfig {
     private String apiKey;
 
     @Bean
-    public ChatLanguageModel model() {
+    public ChatModel model() {
         return OpenAiChatModel.builder()
                 .apiKey(apiKey)
                 .modelName("gpt-4o-mini")
@@ -28,10 +28,10 @@ public class AgentConfig {
     }
 
     @Bean
-    public SpendingInsightAgent spendingAgent(ChatLanguageModel model,
+    public SpendingInsightAgent spendingAgent(ChatModel model,
                                               SpendingTools tools) {
         return AiServices.builder(SpendingInsightAgent.class)
-                .chatLanguageModel(model)
+                .chatModel(model)
                 .tools(tools)
                 .chatMemory(MessageWindowChatMemory.withMaxMessages(20))
                 .build();
