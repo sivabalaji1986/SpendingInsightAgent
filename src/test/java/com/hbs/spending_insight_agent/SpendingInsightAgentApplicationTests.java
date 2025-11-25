@@ -8,6 +8,8 @@ class SpendingInsightAgentApplicationTests {
 
 	@Test
 	void contextLoads() {
+        // Verifies that the Spring context starts successfully.
+        // If the app fails to start, this test will fail.
 	}
 
 }
