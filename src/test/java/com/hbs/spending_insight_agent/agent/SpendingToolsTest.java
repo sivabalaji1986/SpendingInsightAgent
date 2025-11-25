@@ -17,14 +17,14 @@ class SpendingToolsTest {
     private SpendingTools spendingTools;
 
     @Test
-    void monthlyTotalShouldMatchSeedDataForNovember() {
-        BigDecimal total = spendingTools.monthlyTotal("A123", 2025, 11);
+    void accountSummaryShouldMatchSeedDataForNovember() {
+        BigDecimal total = spendingTools.getAccountSummary("A123", 2025, 11);
         assertThat(total).isEqualByComparingTo("2630.50");
     }
 
     @Test
-    void fetchTransactionsShouldReturnFiveRowsForNovember() {
-        List<Transaction> november = spendingTools.fetchTransactions(
+    void getRecentTransactionsShouldReturnFiveRowsForNovember() {
+        List<Transaction> november = spendingTools.getRecentTransactions(
                 "A123",
                 "2025-11-01",
                 "2025-11-30"
