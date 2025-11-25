@@ -32,14 +32,8 @@ openai:
 
 logging:
   level:
-    root: INFO
-    dev.langchain4j: TRACE
-    dev.langchain4j.agent: TRACE
-    dev.langchain4j.agent.tool: TRACE
-    dev.langchain4j.model: TRACE
-    dev.langchain4j.memory: TRACE
-    dev.langchain4j.service: TRACE
-    dev.langchain4j.data: TRACE
     com.hbs.spending_insight_agent: DEBUG
-    org.springframework.web: DEBUG
-    org.springframework.jdbc: DEBUG
+    dev.langchain4j.http.client.log: DEBUG
+
+server:
+  port: 8688
