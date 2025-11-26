@@ -32,7 +32,7 @@ It showcases a complete agentic pattern:
 * Tools → controlled access to bank data 
 * Service + Controller → enterprise Spring structure 
 * H2 dataset → realistic financial transactions 
-* ReAct + tool calling → explainable planning traces
+* Uses LangChain4j’s tool-calling (ReAct-style) to let the LLM plan its calls and produce traceable logs of each tool invocation.
 
 This repository is a hands-on reference for Java engineers exploring agentic architectures without switching to Python.
 
@@ -66,8 +66,9 @@ Seeded automatically using:
 Backend converts these parameters into a natural-language prompt passed to the agent.
 This allows:
 * Strong validation 
-* Secure account authorization 
-* Fully deterministic API contract
+* A deterministic API contract
+
+ In a real bank, this endpoint would be fronted by an authorization layer (e.g., Spring Security + OAuth2/JWT) to ensure account-level access control.
 
 ---
 
@@ -218,7 +219,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-      defer-datasource-initialization: true
+    defer-datasource-initialization: true
   sql:
     init:
       mode: always
@@ -246,21 +247,46 @@ curl "http://localhost:8688/api/spending/insights?accountId=A123&year=2025&month
 ## 📄 Example Insight Output
 
 ```
-In November 2025, your total spending was $2,630.50, a significant increase from October's $690.00.
+Here's a friendly analysis of your spending for November 2025, compared to October 2025.
 
-**Top Spending Categories:**
-1. **Travel**: $2,000 (76% of total) - This includes a $580 flight with Scoot Airlines and a $1,400 flight with Singapore Airlines.
-2. **Shopping**: $320 (12% of total) - A purchase at Uniqlo.
-3. **Food**: $120.50 (5% of total) - A meal from GrabFood.
-4. **Bills**: $210 (8% of total) - Payment to SP Services.
+### Category Breakdown for November 2025:
+1. **Food**: $120.50
+   - Merchant: GrabFood
+2. **Travel**: $1,980.00
+   - Merchants: Scoot Airlines ($580.00), Singapore Airlines ($1,400.00)
+3. **Shopping**: $320.00
+   - Merchant: Uniqlo
+4. **Bills**: $210.00
+   - Merchant: SP Services
 
-**Spending Spikes:**
-- Your spending increased by approximately 280% compared to October, which is a significant spike.
+### Top Spending Categories:
+- **Travel**: $1,980.00
+- **Shopping**: $320.00
+- **Bills**: $210.00
+- **Food**: $120.50
 
-**Single Transaction:**
-- The $1,400 transaction with Singapore Airlines accounted for over 40% of your monthly total.
+### Spending Comparison with October 2025:
+In October, your spending was as follows:
+- **Food**: $110.00
+- **Travel**: $200.00
+- **Shopping**: $200.00
+- **Bills**: $180.00
 
-If you have any further questions or need more insights, feel free to ask!
+### Notable Changes:
+- **Total Spending**:
+  - November: $2,730.50
+  - October: $700.00
+  - **Increase**: 289% (a significant spike!)
+
+### Spending Spikes:
+- **Travel**: Increased from $200.00 in October to $1,980.00 in November, a spike of 890%.
+- This increase is primarily due to the large transaction with Singapore Airlines.
+
+### Large Single Transactions:
+- The transaction with Singapore Airlines ($1,400.00) is over 40% of your total spending for November, making it a significant expense.
+
+### Summary:
+Your spending in November saw a dramatic increase, particularly in travel, largely due to a significant flight expense. If you have any questions or need further insights, feel free to ask!
 ```
 
 ---
