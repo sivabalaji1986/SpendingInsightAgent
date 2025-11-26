@@ -12,8 +12,10 @@ import lombok.*;
 public class Account {
 
     @Id
+    @Column(name = "id")
     private String accountId;
 
+    @Column(name = "customer_name")
     private String customerName;
 }
 
