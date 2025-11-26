@@ -19,14 +19,20 @@ public class SpendingInsightService {
                 accountId, year, month);
 
         String query = String.format("""
-                Explain the spending for account %s in %d-%02d.
-                Compare it with the previous month.
-                Highlight:
-                - Top spending categories
-                - Any spending spikes (more than 20%% increase)
-                - Any single transaction above 40%% of the monthly total
+                Analyze spending for account %s for %d-%02d.
+                Compare with the previous month.
+                
+                Provide:
+                - Category breakdown showing where money was spent
+                - Top spending categories with amounts
+                - Any spending spikes (>20%% increase)
+                - Any large single transactions (>40%% of monthly total)
+                
+                IMPORTANT: Never mention the account ID (%s) in your response.
+                Refer to it as "your account" instead.
+                
                 Keep the explanation clear, concise, and friendly.
-                """, accountId, year, month);
+                """, accountId, year, month, accountId);
 
         log.debug("Agent user query: {}", query);
 
