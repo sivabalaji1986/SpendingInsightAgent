@@ -77,16 +77,67 @@ This allows:
 - Java 21
 - Maven 3.9+
 
+### Set the OpenAI API Key
+This project uses LangChain4j with OpenAI.
+You must export the openai_key environment variable before running or building:
+
+1. Sign in to OpenAI
+
+    Go to: https://platform.openai.com/
+
+2. Navigate to https://platform.openai.com/settings/organization/api-keys
+
+3. Create a New Secret Key
+
+    Click "Create new secret key"
+
+    Give it a name (e.g., spending-insight-agent)
+
+4. Copy the Key
+
+    You’ll get a key that looks like:
+
+    sk-abc123*************************
+
+5. Set it as an Environment Variable
+
+    You must set this before running or building the project.
+
+#### macOS / Linux (bash/zsh)
+```bash
+export openai_key=sk-abc123*************************
+````
+
+#### Windows (PowerShell)
+```bash
+setx openai_key "sk-abc123*************************"
+```
+
+6. Verify It Works
+
+Run:
+
+echo $openai_key
+
+
+You should see your key.
+
 ### Steps
 ```bash
+# 1. Set API key
+export openai_key=YOUR_OPENAI_API_KEY
+
+# 2. Build
 mvn clean install
+
+# 3. Run
 mvn spring-boot:run
 ```
 
 ### H2 Console
 Visit:
 ```
-http://localhost:8080/h2-console
+http://localhost:8688/h2-console
 ```
 
 JDBC URL:
@@ -116,7 +167,7 @@ jdbc:h2:mem:bankdb
                     ↓
               SpendingTools
       • getAccountSummary(accountId, year, month)
-      • getRecentTransactions(accountId, year, month)
+      • getRecentTransactions(accountId, fromDate, toDate)
                     ↓
          AccountSummaryService / TransactionService
                     ↓
@@ -160,8 +211,9 @@ src/main/java/com/hbs/spending_insight_agent/
 
 ## 🛠 Configuration
 
-Ensure:
-```properties
+**In `application.yml`:**
+
+```yaml
 spring:
   jpa:
     hibernate:
@@ -171,14 +223,22 @@ spring:
     init:
       mode: always
 ```
-This prevents Hibernate from destroying schema and allows SQL scripts to load in order.
 
+**Why these settings?**
+- `ddl-auto: none` - Prevents Hibernate from auto-creating schema
+- `defer-datasource-initialization: true` - Allows SQL scripts to run after JPA setup
+- `mode: always` - Ensures `schema.sql` and `data.sql` execute on startup
+
+**For production:**
+- Disable SQL script auto-execution (`mode: never`)
+- Use PostgreSQL or MySQL instead of H2
+- Manage schema with Flyway or Liquibase
 ---
 
 ## 🧪 Test with curl
 
 ```bash
-curl "http://localhost:8080/api/spending/insights?accountId=A123&year=2025&month=11"
+curl "http://localhost:8688/api/spending/insights?accountId=A123&year=2025&month=11"
 ```
 
 ---
@@ -186,22 +246,21 @@ curl "http://localhost:8080/api/spending/insights?accountId=A123&year=2025&month
 ## 📄 Example Insight Output
 
 ```
-In November 2025, your total spending for account A123 was **$2,630.50**, a substantial increase from **$690.00** in October, marking a **280% increase**.
+In November 2025, your total spending was $2,630.50, a significant increase from October's $690.00.
 
-### Top Spending Categories:
-1. **Travel**: $2,000.00 (76% of total)
-   - Major transactions included $580 with Scoot Airlines and $1,400 with Singapore Airlines.
-2. **Shopping**: $320.00 (12% of total)
-   - A purchase at Uniqlo.
-3. **Bills**: $210.00 (8% of total)
-   - Payment to SP Services.
-4. **Food**: $120.50 (5% of total)
-   - A transaction with GrabFood.
+**Top Spending Categories:**
+1. **Travel**: $2,000 (76% of total) - This includes a $580 flight with Scoot Airlines and a $1,400 flight with Singapore Airlines.
+2. **Shopping**: $320 (12% of total) - A purchase at Uniqlo.
+3. **Food**: $120.50 (5% of total) - A meal from GrabFood.
+4. **Bills**: $210 (8% of total) - Payment to SP Services.
 
-### Spending Spikes:
-- The overall increase is driven by travel expenses, particularly the **$1,400** transaction with Singapore Airlines, which constitutes **53%** of your monthly total.
+**Spending Spikes:**
+- Your spending increased by approximately 280% compared to October, which is a significant spike.
 
-This month reflects a significant focus on travel, leading to a notable rise in your spending. If you have any questions or need more insights, just let me know!
+**Single Transaction:**
+- The $1,400 transaction with Singapore Airlines accounted for over 40% of your monthly total.
+
+If you have any further questions or need more insights, feel free to ask!
 ```
 
 ---
