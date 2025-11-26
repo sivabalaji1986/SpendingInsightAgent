@@ -15,8 +15,10 @@ import java.time.LocalDate;
 public class Transaction {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
+    @Column(name = "account_id")
     private String accountId;
     private BigDecimal amount;
     private String category;
