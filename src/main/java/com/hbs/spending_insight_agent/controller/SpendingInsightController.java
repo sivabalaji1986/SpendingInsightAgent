@@ -26,12 +26,22 @@ public class SpendingInsightController {
         log.info("Request: /api/spending/insights accountId={}, year={}, month={}",
                 accountId, year, month);
 
-        // Minimal validation (you can expand this in repo / prod)
-        if (year < 2020 || year > LocalDate.now().getYear()) {
+        if (!accountId.matches("^[A-Za-z0-9]{1,20}$")) {
+            return ResponseEntity.badRequest().body("Invalid accountId format");
+        }
+
+        // Minimal validation
+        LocalDate now = LocalDate.now();
+        if (year < 2020 || year > now.getYear()) {
             return ResponseEntity.badRequest().body("Invalid year");
         }
         if (month < 1 || month > 12) {
             return ResponseEntity.badRequest().body("Invalid month");
+        }
+
+        // Reject future month in current year
+        if (year == now.getYear() && month > now.getMonthValue()) {
+            return ResponseEntity.badRequest().body("Future months are not allowed");
         }
 
         String insight = insightService.generateInsight(accountId, year, month);
