@@ -20,6 +20,7 @@ public class Account {
     @Column(name = "customer_name")
     private String customerName;
 
+    @Column(name = "currency")
     private String currency;
 
     @Column(name = "opened_on")

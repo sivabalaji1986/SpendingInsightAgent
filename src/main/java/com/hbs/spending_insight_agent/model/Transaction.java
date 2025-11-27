@@ -16,17 +16,21 @@ public class Transaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
 
     @Column(name = "account_id")
     private String accountId;
 
+    @Column(name = "amount")
     private BigDecimal amount;
 
+    @Column(name = "category")
     private String category;
 
+    @Column(name = "merchant")
     private String merchant;
 
+    @Column(name = "date")
     private LocalDate date;
 }
 
