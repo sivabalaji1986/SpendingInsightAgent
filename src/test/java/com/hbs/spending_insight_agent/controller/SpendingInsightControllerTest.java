@@ -97,4 +97,30 @@ class SpendingInsightControllerTest {
         verifyNoInteractions(spendingInsightService);
     }
 
+    @Test
+    void shouldReturnBadRequest_WhenAccountIdHasInvalidFormat() throws Exception {
+        mockMvc.perform(get("/api/spending/insights")
+                        .param("accountId", "INVALID!#")   // invalid
+                        .param("year", "2025")
+                        .param("month", "11"))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Invalid accountId format"));
+    }
+
+    @Test
+    void shouldReturnBadRequest_WhenMonthIsInFutureOfCurrentYear() throws Exception {
+        LocalDate now = LocalDate.now();
+        int nextMonth = now.getMonthValue() + 1;
+
+        // ensure month rolls correctly (e.g., December → January)
+        if (nextMonth == 13) nextMonth = 1;
+
+        mockMvc.perform(get("/api/spending/insights")
+                        .param("accountId", "A123")
+                        .param("year", String.valueOf(now.getYear()))
+                        .param("month", String.valueOf(nextMonth)))  // future month
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Future months are not allowed"));
+    }
+
 }
