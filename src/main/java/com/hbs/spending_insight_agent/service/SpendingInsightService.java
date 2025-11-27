@@ -38,7 +38,7 @@ public class SpendingInsightService {
 
         try {
             log.info("Agent: Planning - analyzing spending patterns...");
-            String result = agent.analyse(query);
+            String result = agent.generateInsight(query);
             log.info("Agent: Insight generated successfully");
             log.debug("Agent result length: {} characters", result.length());
             return result;

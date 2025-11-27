@@ -27,14 +27,14 @@ class SpendingInsightServiceTest {
         int year = 2025;
         int month = 11;
 
-        when(agent.analyse(anyString())).thenReturn("Sample Insight");
+        when(agent.generateInsight(anyString())).thenReturn("Sample Insight");
 
         // Act
         String result = service.generateInsight(accountId, year, month);
 
         // Assert
         assertEquals("Sample Insight", result);
-        verify(agent, times(1)).analyse(anyString());
+        verify(agent, times(1)).generateInsight(anyString());
     }
 
     @Test
@@ -44,7 +44,7 @@ class SpendingInsightServiceTest {
         int year = 2025;
         int month = 11;
 
-        when(agent.analyse(anyString()))
+        when(agent.generateInsight(anyString()))
                 .thenThrow(new RuntimeException("Agent failure"));
 
         // Act + Assert
@@ -55,7 +55,7 @@ class SpendingInsightServiceTest {
 
         assertTrue(ex.getMessage().contains("Failed to analyze spending"));
         assertTrue(ex.getMessage().contains("Agent failure"));
-        verify(agent, times(1)).analyse(anyString());
+        verify(agent, times(1)).generateInsight(anyString());
     }
 
     @Test
@@ -65,7 +65,7 @@ class SpendingInsightServiceTest {
         int year = 2025;
         int month = 11;
 
-        when(agent.analyse(anyString())).thenReturn("OK");
+        when(agent.generateInsight(anyString())).thenReturn("OK");
 
         ArgumentCaptor<String> promptCaptor = ArgumentCaptor.forClass(String.class);
 
@@ -73,7 +73,7 @@ class SpendingInsightServiceTest {
         service.generateInsight(accountId, year, month);
 
         // Assert – verify query content
-        verify(agent).analyse(promptCaptor.capture());
+        verify(agent).generateInsight(promptCaptor.capture());
         String prompt = promptCaptor.getValue();
 
         assertNotNull(prompt);
