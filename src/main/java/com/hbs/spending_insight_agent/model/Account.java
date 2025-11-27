@@ -3,6 +3,8 @@ package com.hbs.spending_insight_agent.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "accounts")
 @Data
@@ -17,5 +19,10 @@ public class Account {
 
     @Column(name = "customer_name")
     private String customerName;
+
+    private String currency;
+
+    @Column(name = "opened_on")
+    private LocalDate openedOn;
 }
 
