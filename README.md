@@ -207,7 +207,25 @@ src/main/java/com/hbs/spending_insight_agent/
 │
 └── SpendingInsightAgentApplication.java
 ````
+---
+## Mapping the Agent Blueprint (11 Agent Components) to the Code
+This section grounds the conceptual 11-component model of an AI Agent in the **actual Java classes** in this repository.
 
+| # | Component | Implementation in Code | Location                                                                                                                                             |
+|---|-----------|------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **1** | **Goal / Purpose** | Defined in `@SystemMessage` annotation: *"Analyze customer spending for a given period, compare with previous periods, identify spikes and unusual patterns"* | `SpendingInsightAgent.java`                                                                                                                          |
+| **2** | **Perception / Input** | REST endpoint receives `accountId`, `year`, `month` parameters and converts them to natural language query | `SpendingInsightController.java` → `SpendingInsightService.java`                                                                                     |
+| **3** | **Reasoning Ability** | LLM-driven reasoning via LangChain4j's `AiServices`. Agent analyzes tool outputs to infer patterns and synthesize insights | `AgentConfig.java` (model setup)<br>`SpendingInsightAgent.java` (reasoning prompt)                                                                   |
+| **4** | **Tools / Skills** | Two `@Tool` annotated methods:<br>• `getAccountSummary(accountId, year, month)`<br>• `getRecentTransactions(accountId, fromDate, toDate)` | `SpendingTools.java`                                                                                                                                 |
+| **5** | **Memory** | **Short-term**: `MessageWindowChatMemory.withMaxMessages(20)` keeps conversation context during analysis<br>**Long-term**: Planned for Part 2 (vector memory) | `AgentConfig.java`                                                                                                                                   |
+| **6** | **Actions / Execution** | Agent autonomously decides which tools to call, in what order, and when analysis is complete. Executed via LangChain4j's tool execution loop | Framework-handled (LangChain4j)                                                                                                                      |
+| **7** | **Autonomy** | LLM decides:<br>• Which tool(s) to call<br>• How many times<br>• When enough data is gathered<br>• How to structure the response | Enabled by `AiServices.builder()` in `AgentConfig.java`                                                                                              |
+| **8** | **Guardrails & Safety** | • Input validation (year/month ranges)<br>• Low temperature (0.2) for consistency<br>• Prompt constraints ("Never mention account IDs")<br>• 400-word response limit<br>• Tool parameter validation | `SpendingInsightController.java` (validation)<br>`SpendingInsightAgent.java` (prompt rules)<br>`AgentConfig.java` (temperature)                      |
+| **9** | **Learning & Adaptation** | Currently: Logging for analysis<br>Planned: Feedback loops and vector memory (Part 2) | Future enhancement                                                                                                                                   |
+| **10** | **Evaluation & Monitoring** | Comprehensive logging:<br>• Tool calls with timestamps<br>• Parameters and results<br>• Execution flow<br>• Debug-level agent reasoning | `SpendingTools.java` (tool logging)<br>`SpendingInsightService.java` (agent logging)<br>`logback-spring.xml` (configuration)                         |
+| **11** | **HITL (Human-In-The-Loop)** | System-level concern: Agent outputs structured insights that can be reviewed before presenting to customers. Supports approval workflows via REST API | HITL is not implemented in code in this repo. The agent simply returns a String insight via the REST API. Architecture supports HITL at system level |
+
+> 🔎 In short: Components **1–7** are concretely represented in this repo (at different depths), while **8–11** are partly or fully *architectural* — described in the article as production patterns that would be layered around this core agent in a real bank.
 ---
 
 ## 🛠 Configuration
