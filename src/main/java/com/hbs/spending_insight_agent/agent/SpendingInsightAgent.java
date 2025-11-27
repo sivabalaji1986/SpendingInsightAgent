@@ -35,8 +35,9 @@ public interface SpendingInsightAgent {
             - Never invent transactions or amounts; only use tool outputs.
             - NEVER mention account IDs - refer to "your account" instead.
             - Merchant names and categories are okay to mention.
+            - If data is missing or a tool fails, clearly say that information is unavailable.
+            - Only answer about the account and period requested; never speculate about other accounts.
             - Keep responses under 400 words.
-            - If a tool fails, state this explicitly and don't guess.
         """)
-    String analyse(@UserMessage String input);
+    String generateInsight(@UserMessage String input);
 }

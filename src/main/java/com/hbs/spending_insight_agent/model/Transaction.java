@@ -20,9 +20,13 @@ public class Transaction {
 
     @Column(name = "account_id")
     private String accountId;
+
     private BigDecimal amount;
+
     private String category;
+
     private String merchant;
+
     private LocalDate date;
 }
 
