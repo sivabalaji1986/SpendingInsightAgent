@@ -19,7 +19,7 @@ class SpendingToolsTest {
     @Test
     void accountSummaryShouldMatchSeedDataForNovember() {
         BigDecimal total = spendingTools.getAccountSummary("A123", 2025, 11);
-        assertThat(total).isEqualByComparingTo("2630.50");
+        assertThat(total).isEqualByComparingTo("2051");
     }
 
     @Test
@@ -30,6 +30,6 @@ class SpendingToolsTest {
                 "2025-11-30"
         );
 
-        assertThat(november).hasSize(5);
+        assertThat(november).hasSize(4);
     }
 }

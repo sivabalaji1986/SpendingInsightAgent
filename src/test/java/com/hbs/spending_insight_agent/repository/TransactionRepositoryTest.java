@@ -33,7 +33,7 @@ class TransactionRepositoryTest {
         List<Transaction> november = transactionRepository
                 .findByAccountIdAndDateBetween("A123", from, to);
 
-        assertThat(november).hasSize(5);
+        assertThat(november).hasSize(4);
         assertThat(november)
                 .allMatch(txn -> "A123".equals(txn.getAccountId()));
     }

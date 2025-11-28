@@ -9,8 +9,7 @@ INSERT INTO accounts(id, customer_name, currency, opened_on) VALUES
 -- Sample Transactions (November)
 ------------------------------------------------------------
 INSERT INTO transactions(account_id, category, amount, date, merchant) VALUES
-                                                                           ('A123', 'Food', 120.50, '2025-11-01', 'GrabFood'),
-                                                                           ('A123', 'Travel', 580.00, '2025-11-03', 'Scoot Airlines'),
+                                                                           ('A123', 'Food', 121.00, '2025-11-01', 'GrabFood'),
                                                                            ('A123', 'Shopping', 320.00, '2025-11-05', 'Uniqlo'),
                                                                            ('A123', 'Travel', 1400.00, '2025-11-18', 'Singapore Airlines'),
                                                                            ('A123', 'Bills', 210.00, '2025-11-20', 'SP Services');

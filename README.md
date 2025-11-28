@@ -17,7 +17,7 @@ It autonomously decides which tools to call and when.
 
 ---
 
-## ⭐ Summary
+## Summary
 This project demonstrates how to build a real, production-aligned AI Agent using Java + Spring Boot + LangChain4j.
 
 Instead of writing explicit “if/else” workflows, the agent learns to:
@@ -37,7 +37,7 @@ It showcases a complete agentic pattern:
 This repository is a hands-on reference for Java engineers exploring agentic architectures without switching to Python.
 
 ---
-## 🔍 Features
+## Features
 
 ### ✔ AI Agent (LangChain4j)
 - ReAct-style reasoning
@@ -72,7 +72,7 @@ This allows:
 
 ---
 
-## 🚀 How to Run
+## How to Run
 
 ### Prerequisites
 - Java 21
@@ -177,7 +177,7 @@ jdbc:h2:mem:bankdb
 
 ---
 
-## 📦 Project Structure
+## Project Structure
 
 ````
 src/main/java/com/hbs/spending_insight_agent/
@@ -254,7 +254,7 @@ spring:
 - Manage schema with Flyway or Liquibase
 ---
 
-## 🧪 Test with curl
+## Test with curl
 
 ```bash
 curl "http://localhost:8688/api/spending/insights?accountId=A123&year=2025&month=11"
@@ -262,54 +262,40 @@ curl "http://localhost:8688/api/spending/insights?accountId=A123&year=2025&month
 
 ---
 
-## 📄 Example Insight Output
+## Example Insight Output
 
 ```
-Here's a friendly analysis of your spending for November 2025, compared to October 2025.
+Here's the spending analysis for your account for November 2025, along with a comparison to October 2025.
 
-### Category Breakdown for November 2025:
-1. **Food**: $120.50
-   - Merchant: GrabFood
-2. **Travel**: $1,980.00
-   - Merchants: Scoot Airlines ($580.00), Singapore Airlines ($1,400.00)
-3. **Shopping**: $320.00
-   - Merchant: Uniqlo
-4. **Bills**: $210.00
-   - Merchant: SP Services
+### Total Spending
+- **November 2025:** $2,051
+- **October 2025:** $690
 
-### Top Spending Categories:
-- **Travel**: $1,980.00
-- **Shopping**: $320.00
-- **Bills**: $210.00
-- **Food**: $120.50
+### Category Breakdown for November
+1. **Travel:** $1,400 (Singapore Airlines)
+2. **Shopping:** $320 (Uniqlo)
+3. **Bills:** $210 (SP Services)
+4. **Food:** $121 (GrabFood)
 
-### Spending Comparison with October 2025:
-In October, your spending was as follows:
-- **Food**: $110.00
-- **Travel**: $200.00
-- **Shopping**: $200.00
-- **Bills**: $180.00
+### Top Spending Categories
+- **Travel:** $1,400
+- **Shopping:** $320
+- **Bills:** $210
+- **Food:** $121
 
-### Notable Changes:
-- **Total Spending**:
-  - November: $2,730.50
-  - October: $700.00
-  - **Increase**: 289% (a significant spike!)
+### Spending Spikes
+- **Increase from October to November:** Your spending increased by approximately **197%** from October ($690) to November ($2,051). This is a significant spike, primarily driven by the travel expense.
 
-### Spending Spikes:
-- **Travel**: Increased from $200.00 in October to $1,980.00 in November, a spike of 890%.
-- This increase is primarily due to the large transaction with Singapore Airlines.
+### Large Single Transactions
+- The **$1,400** transaction for travel (Singapore Airlines) is **68%** of your total spending for November, which is a large single transaction exceeding 40% of the monthly total.
 
-### Large Single Transactions:
-- The transaction with Singapore Airlines ($1,400.00) is over 40% of your total spending for November, making it a significant expense.
-
-### Summary:
-Your spending in November saw a dramatic increase, particularly in travel, largely due to a significant flight expense. If you have any questions or need further insights, feel free to ask!
+### Summary
+In November, your spending was primarily driven by travel, which significantly increased your overall expenses compared to October. The notable spike in spending and the large travel transaction are key highlights for this period. If you have any further questions or need more insights, feel free to ask!
 ```
 
 ---
 
-## 📘 About This Project
+## About This Project
 This project accompanies the Medium article:
 
 **“AI Agents in Banking: Building a Real Autonomous Spending Insight Agent”**

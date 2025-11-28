@@ -25,8 +25,8 @@ class AccountSummaryServiceTest {
 
         // Then
         // From your data.sql:
-        // 120.50 + 580.00 + 320.00 + 1400.00 + 210.00 = 2630.50
-        assertThat(total).isEqualByComparingTo("2630.50");
+        // 121 + 320.00 + 1400.00 + 210.00 = 2630.50
+        assertThat(total).isEqualByComparingTo("2051");
     }
 
     @Test
