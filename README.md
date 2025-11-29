@@ -151,10 +151,7 @@ jdbc:h2:mem:bankdb
 ---
 
 ## 🧠 Architecture
-
-```
-![Spending Insight Architecture](src/main/resources/SpendingInsight.drawio.png)
-```
+![SpendingInsight.drawio.png](resources/images/SpendingInsight.drawio.png)
 
 ---
 
